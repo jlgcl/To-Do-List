@@ -1,0 +1,55 @@
+body {
+    background-color: darkslategray;
+}
+
+h1 {
+    margin: 0% 1%;
+    padding: 10px 4px;
+    background-color: orange;
+    text-align: center;
+    margin-top: 20px;
+    border: solid;
+    border-radius: 10px;
+}
+
+.table {
+    display: inline;
+    display: flex;
+    margin: 0% 1%;
+    padding: 10px 40x;
+    border: solid;
+    border-radius: 10px;
+}
+
+.projects {
+    border: solid;
+    padding-bottom: 40%;
+    background-color: deepskyblue;
+    display: block;
+}
+
+#project {
+    border: solid;
+    padding-right: 190px;
+    padding-left: 190px;
+}
+
+.todo {
+    border: solid;
+    padding-right: 64%;
+    padding-bottom: 50px;
+    display: block;
+    background-color: plum;
+}
+
+#item {
+    border: solid;
+    margin-right: -520px;
+    margin-bottom: -200px;
+    padding-right: 250px;
+    padding-left: 250px;
+    display: inline-block;
+    text-align: center;
+    align-items: center;
+    background-color: green;
+}
