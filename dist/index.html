@@ -10,7 +10,9 @@
         <div class="table">
             <div class="projects">
                 <div id="project">default</div>
-                <div id="project">project2</div>
+                <div id="project">project2
+                    <div id="deleteP">X</div>
+                </div>
             </div>
             <div class="todo">
                 <div id="item">
@@ -18,14 +20,47 @@
                     <div id="notes">notes</div>
                     <div id="priority">priority</div>
                     <div id="due">due date</div>
+                    <div id="deleteI">X</div>
                 </div>
                 <div id="item">
                     <div id="title">title</div>
                     <div id="notes">notes</div>
                     <div id="priority">priority</div>
                     <div id="due">due date</div>
+                    <div id="deleteI">X</div>
                 </div>
-                
+            </div>
+        </div>
+        <button class="addP">Add Project</button>
+        <div class="inputs">
+            <div class="p-popup" id="myProject">
+                <form class="pro-container">
+                    <h1>New Project</h1>
+                    
+                    <label for="title"><b>Name</b></label>
+                    <input type="text" placeholder="Enter Project Name" name="pTitle" id="pTitleIn" required>
+
+                    <button type="submit" class="pBtn">Submit</button> <br>
+                    <input type="button" class="pBtn_cancel" value="close"><br>
+                </form>
+            </div>
+            <button class="add">Add To-Do</button>
+            <div class="form-popup" id="myForm">
+                <form class="form-container">
+                    <h1>New To-Do</h1>
+    
+                    <label for="title"><b>Title</b></label><br />
+                    <input type="text" placeholder="Enter Title" name="title" id="titleIn" required><br />
+    
+                    <label for="title"><b>Notes</b></label><br />
+                    <input type="text" placeholder="Enter Notes" name="notes" id="notesIn" required><br />
+    
+                    <label for="title"><b>Title</b></label><br />
+                    <input type="radio" value="priorityY" name="priority" id="priorityIn">Priority<br>
+    
+                    <button type="submit" class="btn">Submit</button> <br>
+                    <input type="button" class="btn_cancel" value="close"><br>
+                </form>
             </div>
         </div>
 
