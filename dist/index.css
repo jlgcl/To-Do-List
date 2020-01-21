@@ -139,3 +139,7 @@ h1 {
 .inputs {
     display: flex;
 }
+
+.projects #project:focus { 
+    background-color: green;
+}
