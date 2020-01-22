@@ -13,12 +13,12 @@ h1 {
 }
 
 .table {
-    display: inline;
     display: flex;
     margin: 0% 1%;
     padding: 10px 40x;
     border: solid;
     border-radius: 10px;
+    display: flex;
 }
 
 .projects {
@@ -26,30 +26,30 @@ h1 {
     padding-bottom: 40%;
     background-color: deepskyblue;
     display: block;
+    border-radius: 10px;
 }
 
 #project {
     border: solid;
-    padding-right: 190px;
+    padding-right: 170px;
     padding-left: 190px;
 }
 
 .todo {
     border: solid;
-    padding-right: 64%;
+    padding-right: 545px;
     padding-bottom: 50px;
-    display: block;
+    margin-right: 30%;
+    margin-left: 1px;
     background-color: darkslategray;
     border-radius: 10px;
+    display: inline-block;
 }
 
 #item {
     border: solid;
-    margin-right: -520px;
-    margin-bottom: -200px;
-    padding-right: 250px;
-    padding-left: 250px;
-    display: inline-block;
+    padding-right: 150px;
+    padding-left: 150px;
     text-align: center;
     align-items: center;
     background-color: green;
@@ -140,6 +140,9 @@ h1 {
     display: flex;
 }
 
-.projects #project:focus { 
+#project:active { 
     background-color: green;
+}
+#project:focus {
+    background-color: blue;
 }

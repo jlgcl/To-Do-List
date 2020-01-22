@@ -1,4 +1,4 @@
-export function forms(projectControl, pArray, projClicked, tArray) {
+export function forms(projectControl, pToDo, pArray, projClicked, tArray) {
     document.querySelector(".add").addEventListener("click", function(){
         document.getElementById("myForm").style.display = "block";
     })
@@ -17,7 +17,7 @@ export function forms(projectControl, pArray, projClicked, tArray) {
         e.preventDefault();
     })
     */
-    
+
     document.querySelector(".pBtn").addEventListener("click", function(e) {
         e.preventDefault();
 
@@ -44,9 +44,14 @@ export function forms(projectControl, pArray, projClicked, tArray) {
         })
     })
 
-    //click what?
-    document.querySelectorAll("#project").map(a => {
+    //LEARNED: querySelector("#project") can't be mapped; must use Array.from to make array from HTMLelements.
+    //PROBLEM: only recognizes the first element inside map ("default")
+    let elements = document.querySelectorAll("#project");
+    let elements1 = Array.from(elements);
+    elements1.map(a => {
         a.addEventListener("click", function() {
+
+        console.log(a);
             document.querySelector(".btn").addEventListener("click", function(e) {  //to-do submit
                 e.preventDefault();
                 //assign value to each to-do parent item as a.textContent to categorize each item under the chosen project.
@@ -85,7 +90,8 @@ export function forms(projectControl, pArray, projClicked, tArray) {
                 })
             })
             //add below: to-do map, if (a.textContent == to-do.value) {style.display = "block"}
-            let item = document.querySelectorAll("item");
+            let item = document.querySelectorAll("#item");
+            item = Array.from(item);
             item.map(b => {
                 if (b.value == a.textContent) {
                     b.style.display = "block";

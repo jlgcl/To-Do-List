@@ -8,9 +8,10 @@ FILES:
     1. index.js
     - starts with parent first, then consider if others can be separate module.
 
-LEARNED:
+LEARNED: learned lessons commented throughout the code.
     - onclick & getElementById for openForm/closeForm don't work - querySelector works.
     - childNode.remove(): removes element from DOM tree.
+    - if page still reloads even with event.preventDefault(), then the code preceding it is not executing properly.
 
 STATUS:
     - create HTML skeleton (use JS later) - COMPLETE
@@ -49,7 +50,7 @@ function renderControl() {
 
     const pArray = [];  //stores projects
     const tArray = [];  //stores to-dos
-    forms(projectControl, pArray, projClicked, tArray);  //MUST pass through these as arguments.
+    forms(projectControl, pToDo, pArray, projClicked, tArray);  //MUST pass through these as arguments.
 
 }
 
