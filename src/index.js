@@ -16,8 +16,11 @@ LEARNED: learned lessons commented throughout the code.
 STATUS:
     - create HTML skeleton (use JS later) - COMPLETE
     - create input forms & get data. - COMPLETE
-    - work: when project is clicked, add/categorize/show to-do items.
-    - organize CSS
+    - organize CSS - COMPLETE
+    - HARDEST PART: when project is clicked, add/categorize/show to-do items.
+        - show/hide items by project category.
+        - currently: submitting item changes the rest of the items.
+    
 */
 
 import { forms } from "./forms.js"
