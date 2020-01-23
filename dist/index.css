@@ -29,7 +29,7 @@ h1 {
     border-radius: 10px;
 }
 
-#project {
+.project {
     border: solid;
     padding-right: 170px;
     padding-left: 190px;
@@ -46,7 +46,7 @@ h1 {
     display: inline-block;
 }
 
-#item {
+.item {
     border: solid;
     padding-right: 150px;
     padding-left: 150px;
@@ -59,7 +59,7 @@ h1 {
     background-color: white;
 }
 
-#item:hover {
+.item:hover {
     background-color: white;
 }
 
@@ -140,9 +140,9 @@ h1 {
     display: flex;
 }
 
-#project:active { 
+.project:active { 
     background-color: green;
 }
-#project:focus {
+.project:focus {
     background-color: blue;
 }
