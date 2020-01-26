@@ -18,6 +18,7 @@ LEARNED: learned lessons commented throughout the code - see forms.js
     - correct situations to use addEventListeners vs. onclick; latter prevents confusion with getElements' latest DOM acquisition (doesn't work).
         - in JS, GlobalEventHandlers.onclick = functionName; - don't use functionName() or "functionName".
     - target.removeEventListener() - require the callback function to be exactly the same name as addEventListener.
+    - using event listener, can choose parent node & child node OR use querySelector to choose childNode's id.
 
 STATUS:
     - create HTML skeleton (use JS later) - COMPLETE
@@ -31,7 +32,9 @@ STATUS:
         SOLUTION: USE onclick instead of addEventListener to access latest DOM elements appended after .pBtn callback scope - this also prevents eventListener multiples.
 
     - show all to-do items when click default - COMPLETE
-    - allow edit of each to-do item
+    - allow edit of each to-do item - 
+
+    - PROJECT NOT COMPLETE: still need to organize code & make functions to modules.
     
 */
 
@@ -94,6 +97,8 @@ function renderControl() {
             //pArray.splice(pArray.length-1, 1);
             newDiv.remove();
         })
+
+        document.getElementById("myProject").style.display = "none";
     });
     
 }
@@ -191,11 +196,40 @@ document.querySelector(".btn").addEventListener("click", function(e) {  //to-do 
     delT.id = "deleteI";
     delT.textContent = "X";
 
+    let edit = document.createElement("button");
+    newTDiv.appendChild(edit);
+    edit.innerHTML = "edit";
+    edit.onclick = editF;
+
     delT.addEventListener("click", function(e) {
         //tArray.splice(pArray.length-1, 1);
         newTDiv.remove();
     })
+
+    document.getElementById("myForm").style.display = "none";
 })
+
+//Edit to-do list function
+function editF(e) {
+    document.getElementById("myEdit").style.display = "block";
+
+
+    /* DON'T DECLARE VARIABLES LIKE THIS AND USE INSIDE BELOW CALLBACK!
+    let eTitle = document.querySelector("#titleE").value;
+    let eNotes = document.querySelector("#notesE").value;
+    let titleIndex = e.target.parentNode.childNodes[0].innerHTML;
+    let notesIndex = e.target.parentNode.childNodes[1].innerHTML;
+    */
+
+    document.querySelector(".eBtn").addEventListener("click", function(event){
+        event.preventDefault();
+        console.log(e.target.parentNode);
+        e.target.parentNode.childNodes[0].innerHTML = document.querySelector("#titleE").value;
+        e.target.parentNode.childNodes[1].innerHTML = document.querySelector("#notesE").value;
+        document.getElementById("myEdit").style.display = "none";
+        e = ""; //LEARNED: re-initialize after each click to prevent "e" to accumulate previous events.
+    })
+}
 
 /* To show all to-do items, push every new to-do item to an array, then display using eventListener:
 document.getElementsByClassName("item").map is not a function; querySelector and onclick also don't work.

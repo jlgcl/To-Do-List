@@ -98,12 +98,34 @@ h1 {
     right: 1000px;
     width: 280px;
 }
+
+.addE {
+    background-color: #555;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    position: fixed;
+    bottom: 23px;
+    right: 500px;
+    width: 280px;
+}
   
 .form-popup {
     display: none;
     position: fixed;
     bottom: 50px;
     right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9; /* behind or front of other element */
+}
+
+.edit-popup {
+    display: none;
+    position: fixed;
+    bottom: 50px;
+    right: 500px;
     border: 3px solid #f1f1f1;
     z-index: 9; /* behind or front of other element */
 }
@@ -117,7 +139,7 @@ h1 {
     z-index: 9; /* behind or front of other element */
 }
 
-.form-container, .pro-container {
+.form-container, .pro-container, .edit-container {
     max-width: 300px;
     padding: 10px;
     background-color: white;
@@ -128,7 +150,7 @@ h1 {
     outline: none;
 }
 
-.form-container .btn_cancel, .pBtn_cancel{
+.form-container .btn_cancel, .pBtn_cancel, .eBtn_cancel{
     background-color: red;
 }
 
