@@ -9,22 +9,30 @@ FILES:
     - starts with parent first, then consider if others can be separate module.
 
 LEARNED: learned lessons commented throughout the code - see forms.js
-    - onclick & getElementById for openForm/closeForm don't work - querySelector works.
+    - LOTS OF LEARNING; READ CAREFULLY THROUGH THE CODE FOR COMMENTED "LEARNED" SECTIONS FOR DETAILED INFO.
+    - onclick & getElementById for openForm/closeForm and other cases don't work - querySelector works.
     - childNode.remove(): removes element from DOM tree.
     - if page still reloads even with event.preventDefault(), then the code preceding it is not executing properly.
     - getElement is a LIVE HTMLCollection vs. querySelector, which is static.
     - getElementById ONLY returns one element (so can't Array.from) - use getElementsByClassName returns multiple elements.
+    - correct situations to use addEventListeners vs. onclick; latter prevents confusion with getElements' latest DOM acquisition (doesn't work).
+        - in JS, GlobalEventHandlers.onclick = functionName; - don't use functionName() or "functionName".
+    - target.removeEventListener() - require the callback function to be exactly the same name as addEventListener.
 
 STATUS:
     - create HTML skeleton (use JS later) - COMPLETE
     - create input forms & get data. - COMPLETE
     - organize CSS - COMPLETE
-    - HARDEST PART: when project is clicked, add/categorize/show to-do items.
+    - HARDEST PART: when project is clicked, add/categorize/show to-do items. - COMPLETE
         - show/hide items by project category.
         - currently: submitting item changes the rest of the items.
+        ***PERSISTING PROBLEM: still only recognizes whatever project already existing - tried querySelector -> getElements for live HTMLCollections
+        ONLY works when toDo is inside .pBtn eventListener callback - but this creates multiple events when project is clicked since the project eventListener is inside pBtn eventListener.
+        SOLUTION: USE onclick instead of addEventListener to access latest DOM elements appended after .pBtn callback scope - this also prevents eventListener multiples.
 
-    //PERSISTING PROBLEM: still only recognizes whatever project already existing - tried querySelector -> getElements for live HTMLCollections
-    //ONLY works when toDo is inside .pBtn eventListener callback.
+    - show all to-do items when click default - COMPLETE
+    - allow edit of each to-do item
+    
 */
 
 import { forms } from "./forms.js"
@@ -71,6 +79,8 @@ function renderControl() {
         projParent.appendChild(newDiv); //STUCK: appendChild not a function?? in console - answer: use querySelector instead.
         newDiv.className = "project";
         newDiv.innerHTML = newProject.name;
+        newDiv.name = newDiv.innerHTML;
+        newDiv.onclick = projectClick;
 
         //LEARNED: use buttons instead of adding event listener to an innerHTML
         let delP = document.createElement("button");
@@ -88,91 +98,120 @@ function renderControl() {
     
 }
 
-function test() {
+//LEARNED: necessary to have this step: simple addition onclick to projectClick(e) in HTML doesn't work; addEventListener to "item" then style.display="block" <- querySelector/getElements doesn't work (undefined).
+document.querySelector("#default").addEventListener("click", function(){
+    //get rid of any onclick added from previous click, then add function again.
+    if (document.getElementById("default").onclick=projectClick) {
+        document.getElementById("default").onclick="";
+    }
+    document.getElementById("default").onclick=projectClick;
+})
+
+function projectClick(e) {
     /*ISSUE: 
         if outside .pBtn eventListener, doesn't recognize latest DOM tree after project appendChild.
         if inside .pBtn eventListener, a is multiplied depending on the project's DOM position - because project submit (.pBtn) is clicked again.
         
-        next steps:
+        next steps (SOLVED - see status notes above):
             1) try to find way to expose document.getElementsByClassName("project") from inside .pBtn eventListener
             2) find a way to obtain live HTML & why document.getElementsByClassName("project") doesn't return live HTML.
             3) connect inside of project eventListener to outside.
+            SOLUTION: assign onclick with function when project is created.
     */
 
-    
-    Array.from(element2).map(a => {
-        a.addEventListener("click", function(e) {
-            e.preventDefault();
+    e.preventDefault();
 
-            console.log(Array.from(document.getElementsByClassName("project"))) //works
-            console.log(e.target.innerHTML);
+    Array.from(document.getElementsByClassName("project active")).map(a=>{
+        a.className.replace(" active", "");
+    })
 
-            a.className = a.className + " active";
-            a.id = a.innerHTML;
+    e.target.className = e.target.className + " active";
+    if (e.target.className == "project active active"){
+        e.target.className = "project active";
+    };
 
-            /*
-            Array.from(document.getElementsByClassName("project active")).map(b=>{
-                b.className.replace(" active", "");
-                b.id.replace("current", "");
-            })
-            */
+    e.target.id = e.target.name;
+    //let elementTargetId = e.target.id;
 
-            //show/hide to-dos
-            Array.from(document.getElementsByClassName("item")).map(b=>{
-                b.style.display = "none";
-            })
-            Array.from(document.getElementsByClassName("item")).map(b=>{
-                if (b.id == a.id) {
-                        b.style.display = "block";
-                    } else {
-                        b.style.display = "none";
-                    }
-            })
+    //check if project is "active" then add to-dos.
 
-            //check if project is "active" then add to-dos.
-            document.querySelector(".btn").addEventListener("click", function(e) {  //to-do submit
-                e.preventDefault();
-                    
-                //if project is active, then add to-do
-                //assign value to each to-do parent item as a.textContent to categorize each item under the chosen project.
-                let tTitle = document.querySelector("#titleIn").value;
-                let tNotes = document.querySelector("#notesIn").value;
-                //let tPriority = document.querySelector("#priorityIn").value;
 
-                //do title & notes first, then figure out priority & dates later.
-                let newToDo = pToDo(tTitle, tNotes);
-                //tArray.push(newToDo);
 
-                let tParent = document.querySelector(".todo");
-                let newTDiv = document.createElement("div");
-                tParent.appendChild(newTDiv);
-                newTDiv.className = "item";
-                newTDiv.id = a.id;
-
-                let title = document.createElement("div");
-                title.id = "title";
-                title.textContent = tTitle;
-                newTDiv.appendChild(title);
-
-                let notes = document.createElement("div");
-                notes.id = "notes";
-                notes.textContent = tNotes;
-                newTDiv.appendChild(notes);
-
-                let delT = document.createElement("button");
-                newTDiv.appendChild(delT);
-                delT.id = "deleteI";
-                delT.textContent = "X";
-
-                delT.addEventListener("click", function(e) {
-                    //tArray.splice(pArray.length-1, 1);
-                    newTDiv.remove();
-                })
-                    
-            })  
+    //show/hide to-dos; MUST initialize with all to show none.
+    Array.from(document.getElementsByClassName("item")).map(b=>{
+        
+        b.style.display = "none";
+        document.querySelector("#default").addEventListener("click", function(){
+            b.style.display = "block";
         })
+    })
+    Array.from(document.getElementsByClassName("item")).map(b=>{
+        if (b.id == e.target.id) {
+                b.style.display = "block";
+        }else {
+                b.style.display = "none";
+        }
     })
 }
 
+//below callback MUST NOT be inside test(e) function, or it will assign new item to both projects for some reason.
+document.querySelector(".btn").addEventListener("click", function(e) {  //to-do submit
+    e.preventDefault();
+        
+    //if project is active, then add to-do
+    //assign value to each to-do parent item as a.textContent to categorize each item under the chosen project.
+    let tTitle = document.querySelector("#titleIn").value;
+    let tNotes = document.querySelector("#notesIn").value;
+    //let tPriority = document.querySelector("#priorityIn").value;
+
+    //do title & notes first, then figure out priority & dates later.
+    let newToDo = pToDo(tTitle, tNotes);
+    //tArray.push(newToDo);
+
+    let tParent = document.querySelector(".todo");
+    let newTDiv = document.createElement("div");
+    tParent.appendChild(newTDiv);
+    newTDiv.className = "item";
+    Array.from(document.getElementsByClassName("project active")).map(a=>{
+        newTDiv.id = a.name;
+    })
+
+    let title = document.createElement("div");
+    title.id = "title";
+    title.textContent = tTitle;
+    newTDiv.appendChild(title);
+
+    let notes = document.createElement("div");
+    notes.id = "notes";
+    notes.textContent = tNotes;
+    newTDiv.appendChild(notes);
+
+    let delT = document.createElement("button");
+    newTDiv.appendChild(delT);
+    delT.id = "deleteI";
+    delT.textContent = "X";
+
+    delT.addEventListener("click", function(e) {
+        //tArray.splice(pArray.length-1, 1);
+        newTDiv.remove();
+    })
+})
+
+/* To show all to-do items, push every new to-do item to an array, then display using eventListener:
+document.getElementsByClassName("item").map is not a function; querySelector and onclick also don't work.
+SOLVED BY ADDING onclick=function SEPARATELY (SEE ABOVE).
+
+document.querySelector("#default").addEventListener("click", function(e){
+    e.preventDefault();
+
+    let pArray = [];
+    document.getElementsByClassName("item").map(a=>{
+        pArray.push(a);
+        pArray.map(b=>{
+            b.style.display = "block";
+        })
+    })
+})
+*/
+
 renderControl();
-test();
